@@ -1,14 +1,37 @@
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import express from 'express';
-
-const host = process.env.HOST ?? 'localhost';
-const port = process.env.PORT ? Number(process.env.PORT) : 6001;
+import { errorMiddleware } from '../../../packages/error-handler/error-middleware';
 
 const app = express();
 
+// Middleware to handle CORS
+app.use(
+	cors({
+		origin: '[http://localhost:3000]',
+		methods: ['GET', 'POST', 'PUT', 'DELETE'],
+		allowedHeaders: ['Content-Type', 'Authorization'],
+		credentials: true
+	})
+);
+
+// Express Middleware
+app.use(express.json());
+// Cookie parser middleware
+app.use(cookieParser());
+
 app.get('/', (req, res) => {
-	res.send({ message: 'Hello API' });
+	res.send({ message: 'Hello API :)' });
 });
 
-app.listen(port, host, () => {
-	console.log(`[ ready ] http://${host}:${port}`);
+app.use(errorMiddleware);
+
+const port = process.env.PORT || 6001;
+
+const server = app.listen(port, () => {
+	console.log(`Auth service is running at http://localhost:${port}/api`);
+});
+
+server.on('error', err => {
+	console.log('Server Error:', err);
 });

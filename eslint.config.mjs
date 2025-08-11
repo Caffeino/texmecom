@@ -22,7 +22,10 @@ export default [
 						}
 					]
 				}
-			]
+			],
+			// TODO: Avoid using the type: any.
+			// Not recommended, temporarily enabled.
+			'@typescript-eslint/no-explicit-any': 'off'
 		}
 	},
 	{
