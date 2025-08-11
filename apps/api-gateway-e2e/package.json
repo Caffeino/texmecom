@@ -1,10 +1,10 @@
 {
-	"name": "@texmecom/auth-service-e2e",
+	"name": "@texmecom/api-gateway-e2e",
 	"version": "0.0.1",
 	"private": true,
 	"nx": {
 		"implicitDependencies": [
-			"@texmecom/auth-service"
+			"@texmecom/api-gateway"
 		],
 		"targets": {
 			"e2e": {
@@ -13,12 +13,12 @@
 					"{projectRoot}/test-output/jest/coverage"
 				],
 				"options": {
-					"jestConfig": "apps/auth-service-e2e/jest.config.ts",
+					"jestConfig": "apps/api-gateway-e2e/jest.config.ts",
 					"passWithNoTests": true
 				},
 				"dependsOn": [
-					"@texmecom/auth-service:build",
-					"@texmecom/auth-service:serve"
+					"@texmecom/api-gateway:build",
+					"@texmecom/api-gateway:serve"
 				]
 			}
 		}

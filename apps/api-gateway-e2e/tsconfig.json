@@ -1,7 +1,7 @@
 {
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"outDir": "out-tsc/@texmecom/auth-service-e2e",
+		"outDir": "out-tsc/@texmecom/api-gateway-e2e",
 		"esModuleInterop": true,
 		"noUnusedLocals": false,
 		"noImplicitAny": false
