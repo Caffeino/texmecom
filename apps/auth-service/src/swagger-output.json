@@ -6,11 +6,12 @@
 		"version": "1.0.0"
 	},
 	"host": "localhost:6001",
-	"basePath": "/",
+	"basePath": "/api",
 	"schemes": ["http"],
 	"paths": {
-		"/api/auth/register": {
+		"/auth/register": {
 			"post": {
+				"tags": ["Users"],
 				"description": "",
 				"parameters": [
 					{
@@ -24,6 +25,9 @@
 								},
 								"email": {
 									"example": "caffeino@email.com"
+								},
+								"password": {
+									"example": "asd123"
 								}
 							}
 						}
@@ -32,6 +36,40 @@
 				"responses": {
 					"200": {
 						"description": "OK"
+					}
+				}
+			}
+		},
+		"/auth/verify": {
+			"post": {
+				"tags": ["Users"],
+				"description": "",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"example": "caffeino"
+								},
+								"email": {
+									"example": "andres.tezper@gmail.com"
+								},
+								"password": {
+									"example": "asd123"
+								},
+								"otp": {
+									"example": ""
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Created"
 					}
 				}
 			}
