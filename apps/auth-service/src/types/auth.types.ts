@@ -12,3 +12,8 @@ export type VerifyUserInputs = {
 	password: string;
 	otp: string;
 };
+
+export type LoginUserInputs = {
+	email: string;
+	password: string;
+};

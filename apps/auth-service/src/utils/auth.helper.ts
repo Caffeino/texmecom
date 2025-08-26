@@ -2,7 +2,12 @@ import { ValidationError } from '@packages/error-handler';
 import prisma from '@packages/libs/prisma';
 import redis from '@packages/libs/redis';
 import crypto from 'crypto';
-import { RegisterUserInputs, VerifyUserInputs } from '../types/auth.types';
+import jwt from 'jsonwebtoken';
+import {
+	LoginUserInputs,
+	RegisterUserInputs,
+	VerifyUserInputs
+} from '../types/auth.types';
 import { sendEmail } from './mailer';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,12 +44,41 @@ export const getInputsForVerifyUser = (inputs: VerifyUserInputs) => {
 	return inputs;
 };
 
+export const getInputsForLoginUser = (inputs: LoginUserInputs) => {
+	const { email, password } = inputs;
+
+	if (!email || !password)
+		throw new ValidationError('Email and password are required!');
+
+	return inputs;
+};
+
 export const userExists = async (email: string) => {
-	const exists = await prisma.users.findUnique({
+	const user = await prisma.users.findUnique({
 		where: { email }
 	});
 
-	return exists ? true : false;
+	return user ?? false;
+};
+
+export const generateUserAccessToken = (userId: string) => {
+	return jwt.sign(
+		{ id: userId, role: 'user' },
+		process.env.ACCESS_TOKEN_SECRET as string,
+		{
+			expiresIn: '15m'
+		}
+	);
+};
+
+export const generateUserRefreshToken = (userId: string) => {
+	return jwt.sign(
+		{ id: userId, role: 'user' },
+		process.env.REFRESH_TOKEN_SECRET as string,
+		{
+			expiresIn: '7d'
+		}
+	);
 };
 
 export const checkOTPRestrictions = async (email: string) => {

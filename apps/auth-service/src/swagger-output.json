@@ -24,7 +24,7 @@
 									"example": "caffeino"
 								},
 								"email": {
-									"example": "caffeino@email.com"
+									"example": "any@email.com"
 								},
 								"password": {
 									"example": "asd123"
@@ -55,7 +55,7 @@
 									"example": "caffeino"
 								},
 								"email": {
-									"example": "andres.tezper@gmail.com"
+									"example": "any@email.com"
 								},
 								"password": {
 									"example": "asd123"
@@ -70,6 +70,34 @@
 				"responses": {
 					"201": {
 						"description": "Created"
+					}
+				}
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"tags": ["Users"],
+				"description": "",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"email": {
+									"example": "any@email.com"
+								},
+								"password": {
+									"example": "asd123"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
 					}
 				}
 			}

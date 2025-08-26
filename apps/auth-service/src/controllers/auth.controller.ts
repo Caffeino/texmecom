@@ -1,9 +1,12 @@
-import { ValidationError } from '@packages/error-handler';
+import { AuthError, ValidationError } from '@packages/error-handler';
 import prisma from '@packages/libs/prisma';
 import bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response } from 'express';
 import {
 	checkOTPRestrictions,
+	generateUserAccessToken,
+	generateUserRefreshToken,
+	getInputsForLoginUser,
 	getInputsForRegisterUser,
 	getInputsForVerifyUser,
 	sendOTP,
@@ -11,6 +14,7 @@ import {
 	userExists,
 	verifyOTP
 } from '../utils/auth.helper';
+import { setCookie } from '../utils/cookies';
 
 /**
  * Allow the register of a new user.
@@ -77,6 +81,47 @@ export const verifyUser = async (
 		return res.status(201).json({
 			success: true,
 			message: 'User registered successfully!'
+		});
+	} catch (error) {
+		return next(error);
+	}
+};
+
+/**
+ * Login User
+ * @route POST /api/auth/login
+ * @access Public
+ * @param req
+ * @param res
+ * @param next
+ */
+export const loginUser = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	try {
+		const { email, password } = getInputsForLoginUser(req.body);
+
+		const user = await userExists(email);
+
+		if (!user) return next(new AuthError(`User doesn't exists!`));
+
+		const isMatch = await bcrypt.compare(password, user.password ?? '');
+
+		if (!isMatch) return next(new AuthError('Invalid email or password!'));
+
+		// Generate  access and refresh token
+		const accessToken = generateUserAccessToken(user.id);
+		const refreshToken = generateUserRefreshToken(user.id);
+
+		// Store the access and refresh token in a httpOnly secure cookie.
+		setCookie(res, 'access_token', accessToken);
+		setCookie(res, 'refresh_token', refreshToken);
+
+		res.status(200).json({
+			message: 'Login successful!',
+			user: { id: user.id, name: user.name, email: user.email }
 		});
 	} catch (error) {
 		return next(error);
