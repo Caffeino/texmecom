@@ -167,3 +167,37 @@ export const userForgotPassword = async (
 		return next(error);
 	}
 };
+
+/**
+ * Allow the user to verify an OTP to reset their password.
+ * @route POST /api/auth/verify-fortgot-pass
+ * @access Public
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+export const verifyUserForgotPassword = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	try {
+		const { email, otp } = req.body;
+
+		if (!email || !otp)
+			return next(new ValidationError('Email and OTP are required!'));
+
+		const user = await userExists(email);
+
+		if (!user) return next(new ValidationError(`User doesn't exists!`));
+
+		await verifyOTP(email, otp);
+
+		res
+			.status(200)
+			.json({ message: 'OTP verified. You can reset your password.' });
+	} catch (error) {
+		return next(error);
+	}
+};

@@ -126,6 +126,34 @@
 					}
 				}
 			}
+		},
+		"/verify-fortgot-pass": {
+			"post": {
+				"tags": ["Users"],
+				"description": "",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"email": {
+									"example": "any@email.com"
+								},
+								"otp": {
+									"example": ""
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
 		}
 	}
 }
