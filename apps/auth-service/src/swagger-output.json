@@ -6,10 +6,10 @@
 		"version": "1.0.0"
 	},
 	"host": "localhost:6001",
-	"basePath": "/api",
+	"basePath": "/api/auth",
 	"schemes": ["http"],
 	"paths": {
-		"/auth/register": {
+		"/register": {
 			"post": {
 				"tags": ["Users"],
 				"description": "",
@@ -40,7 +40,7 @@
 				}
 			}
 		},
-		"/auth/verify": {
+		"/verify": {
 			"post": {
 				"tags": ["Users"],
 				"description": "",
@@ -74,7 +74,7 @@
 				}
 			}
 		},
-		"/auth/login": {
+		"/login": {
 			"post": {
 				"tags": ["Users"],
 				"description": "",
@@ -90,6 +90,31 @@
 								},
 								"password": {
 									"example": "asd123"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/forgot-pass": {
+			"post": {
+				"tags": ["Users"],
+				"description": "",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"email": {
+									"example": "any@email.com"
 								}
 							}
 						}

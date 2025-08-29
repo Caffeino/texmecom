@@ -129,3 +129,41 @@ export const loginUser = async (
 		return next(error);
 	}
 };
+
+/**
+ * Used to send an OTP email.
+ * @route POST /api/auth/forgot-pass
+ * @access Public
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+export const userForgotPassword = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	try {
+		const { email } = req.body;
+
+		if (!email) return next(new ValidationError('Email is required!'));
+
+		const user = await userExists(email);
+
+		if (!user) return next(new ValidationError('User not found'));
+
+		await checkOTPRestrictions(email);
+
+		await trackOTPRequests(email);
+
+		// Generate OTP and send email
+		await sendOTP(user.name, user.email, 'forgot-pass-user-mail');
+
+		res
+			.status(200)
+			.json({ message: 'OTP sent to email. Please verify your account.' });
+	} catch (error) {
+		return next(error);
+	}
+};
