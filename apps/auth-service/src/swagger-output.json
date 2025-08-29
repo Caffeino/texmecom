@@ -154,6 +154,34 @@
 					}
 				}
 			}
+		},
+		"/reset-pass": {
+			"post": {
+				"tags": ["Users"],
+				"description": "",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"email": {
+									"example": "any@email.com"
+								},
+								"new_password": {
+									"example": "asd123"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
 		}
 	}
 }

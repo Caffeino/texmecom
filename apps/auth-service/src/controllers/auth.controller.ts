@@ -201,3 +201,52 @@ export const verifyUserForgotPassword = async (
 		return next(error);
 	}
 };
+
+/**
+ * Used to reset the user's password.
+ * @route POST /api/auth/reset-pass
+ * @access Public
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+export const resetUserPassword = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	try {
+		const { email, new_password } = req.body;
+
+		if (!email || !new_password)
+			return next(new ValidationError('Email and new password are required!'));
+
+		const user = await userExists(email);
+
+		if (!user) return next(new ValidationError(`User doesn't exists!`));
+
+		// Compare new pass with the existing one
+		const isSamePass = await bcrypt.compare(new_password, user.password ?? '');
+
+		if (isSamePass)
+			return next(
+				new ValidationError(
+					'New password cannot be the same as the old password!'
+				)
+			);
+
+		// TODO... to refactor (same code in 'verifyUser' func)
+		const salt = await bcrypt.genSalt(10);
+		const hashedPassword = await bcrypt.hash(new_password, salt);
+
+		await prisma.users.update({
+			where: { email },
+			data: { password: hashedPassword }
+		});
+
+		res.status(200).json({ message: 'Password reset successfully!' });
+	} catch (error) {
+		return next(error);
+	}
+};
