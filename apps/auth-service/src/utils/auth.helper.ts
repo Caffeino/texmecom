@@ -3,55 +3,7 @@ import prisma from '@packages/libs/prisma';
 import redis from '@packages/libs/redis';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
-import {
-	LoginUserInputs,
-	RegisterUserInputs,
-	VerifyUserInputs
-} from '../types/auth.types';
 import { sendEmail } from './mailer';
-
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-export const getInputsForRegisterUser = (
-	inputs: RegisterUserInputs,
-	userType: 'user' | 'seller'
-) => {
-	const { name, email, password, phone_number, country } = inputs;
-
-	if (!name || !email || !password)
-		throw new ValidationError('Missing required fields!');
-
-	if (!emailRegex.test(email))
-		throw new ValidationError('Invalid email format!');
-
-	switch (userType) {
-		case 'seller':
-			if (!phone_number || !country)
-				throw new ValidationError('Missing required fields!');
-			break;
-		default:
-			break;
-	}
-
-	return inputs;
-};
-
-export const getInputsForVerifyUser = (inputs: VerifyUserInputs) => {
-	const { name, email, password, otp } = inputs;
-	if (!name || !email || !password || !otp)
-		throw new ValidationError('All fields are required!');
-
-	return inputs;
-};
-
-export const getInputsForLoginUser = (inputs: LoginUserInputs) => {
-	const { email, password } = inputs;
-
-	if (!email || !password)
-		throw new ValidationError('Email and password are required!');
-
-	return inputs;
-};
 
 export const userExists = async (email: string) => {
 	const user = await prisma.users.findUnique({

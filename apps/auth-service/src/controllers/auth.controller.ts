@@ -6,15 +6,17 @@ import {
 	checkOTPRestrictions,
 	generateUserAccessToken,
 	generateUserRefreshToken,
-	getInputsForLoginUser,
-	getInputsForRegisterUser,
-	getInputsForVerifyUser,
 	sendOTP,
 	trackOTPRequests,
 	userExists,
 	verifyOTP
 } from '../utils/auth.helper';
 import { setCookie } from '../utils/cookies';
+import {
+	inputsForLoginUser,
+	inputsForRegisterUser,
+	inputsForVerifyUser
+} from '../utils/validator';
 
 /**
  * Allow the register of a new user.
@@ -31,7 +33,7 @@ export const registerUser = async (
 	next: NextFunction
 ) => {
 	try {
-		const { name, email } = getInputsForRegisterUser(req.body, 'user');
+		const { name, email } = inputsForRegisterUser(req.body, 'user');
 
 		if (await userExists(email))
 			return next(new ValidationError('User already exists with this email'));
@@ -63,7 +65,7 @@ export const verifyUser = async (
 	next: NextFunction
 ) => {
 	try {
-		const { name, email, password, otp } = getInputsForVerifyUser(req.body);
+		const { name, email, password, otp } = inputsForVerifyUser(req.body);
 
 		if (await userExists(email))
 			return next(new ValidationError('User already exists with this email'));
@@ -101,7 +103,7 @@ export const loginUser = async (
 	next: NextFunction
 ) => {
 	try {
-		const { email, password } = getInputsForLoginUser(req.body);
+		const { email, password } = inputsForLoginUser(req.body);
 
 		const user = await userExists(email);
 
