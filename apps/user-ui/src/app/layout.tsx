@@ -1,4 +1,6 @@
-import './global.css';
+import Header from '../components/common/Header';
+import { poppins, roboto } from '../styles/fonts';
+import './../styles/global.css';
 
 export const metadata = {
 	title: 'Texmecom',
@@ -13,7 +15,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body>{children}</body>
+			<body className={`${roboto.variable} ${poppins.variable}`}>
+				<Header />
+				{children}
+			</body>
 		</html>
 	);
 }
