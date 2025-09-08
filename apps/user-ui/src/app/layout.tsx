@@ -1,5 +1,5 @@
 import Header from '../components/common/Header';
-import { poppins, roboto } from '../styles/fonts';
+import { poppins } from '../styles/fonts';
 import './../styles/global.css';
 
 export const metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`${roboto.variable} ${poppins.variable}`}>
+			<body className={`${poppins.className} antialiased`}>
 				<Header />
 				{children}
 			</body>
