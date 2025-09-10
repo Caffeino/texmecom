@@ -1,4 +1,4 @@
-import Navbar from '../components/common/Navbar';
+import Header from '../components/common/Header';
 import { poppins } from '../styles/fonts';
 import './../styles/global.css';
 
@@ -16,7 +16,7 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={`${poppins.className} antialiased`}>
-				<Navbar />
+				<Header />
 				{children}
 			</body>
 		</html>
