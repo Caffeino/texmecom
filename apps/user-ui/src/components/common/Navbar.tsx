@@ -4,8 +4,8 @@ import ProfileAvatar from './navbar/ProfileAvatar';
 import SearchBox from './navbar/SearchBox';
 import WishAndCart from './navbar/WishAndCart';
 
-const Navbar = () => (
-	<div className='w-full bg-slate-50/85'>
+const Navbar = ({ openLoginModal }: { openLoginModal: () => void }) => (
+	<div className='w-full bg-slate-50'>
 		<div className='w-[80%] py-2 m-auto flex items-center justify-between'>
 			<Link href={'/'}>
 				<Logo />
@@ -13,8 +13,8 @@ const Navbar = () => (
 			<div className='w-[50%] relative'>
 				<SearchBox />
 			</div>
-			<div className='flex items-center gap-3'>
-				<ProfileAvatar />
+			<div className='flex items-center gap-0'>
+				<ProfileAvatar openLoginModal={openLoginModal} />
 				<WishAndCart />
 			</div>
 		</div>

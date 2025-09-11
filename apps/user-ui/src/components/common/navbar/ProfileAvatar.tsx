@@ -1,18 +1,22 @@
-import Link from 'next/link';
 import ProfileIcon from '../../svg/ProfileIcon';
 
-const ProfileAvatar = () => (
-	<div className='flex items-center gap-2'>
-		<Link
-			href={'/login'}
-			className='border border-teal-200/50 bg-teal-50 w-[50px] h-[50px] flex items-center justify-center rounded-full'
+const ProfileAvatar = ({ openLoginModal }: { openLoginModal: () => void }) => (
+	<div className='py-1 px-2 hover:bg-slate-200/65 rounded-md'>
+		<button
+			type='button'
+			className='flex flex-row gap-1'
+			onClick={openLoginModal}
 		>
-			<ProfileIcon className='text-teal-400' />
-		</Link>
-		<Link href={'/login'} className=''>
-			<span className='block text-sm font-light text-teal-400'>Hello,</span>
-			<span className='font-normal text-violet-400'>Sign In</span>
-		</Link>
+			<div className='border border-slate-200/75 bg-slate-100/75 w-[40px] h-[40px] flex items-center justify-center rounded-full'>
+				<ProfileIcon className='text-slate-400' />
+			</div>
+			<div className='flex flex-col gap-1 items-start'>
+				<span className='text-xs font-normal text-slate-400'>Hola,</span>
+				<span className='text-xs font-semibold text-violet-400'>
+					Inicia sesi&oacute;n
+				</span>
+			</div>
+		</button>
 	</div>
 );
 

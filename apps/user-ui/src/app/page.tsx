@@ -1,5 +1,5 @@
 const Page = () => {
-	return <div className='h-[200vh]'>Page</div>;
+	return <div className=''>Page</div>;
 };
 
 export default Page;

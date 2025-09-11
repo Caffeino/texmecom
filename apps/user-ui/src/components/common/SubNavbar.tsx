@@ -11,13 +11,7 @@ const SubNavbar = () => {
 	const [show, setShow] = useState(false);
 	const [isSticky, setIsSticky] = useState(false);
 
-	const handleScroll = () => {
-		if (window.scrollY > 100) {
-			setIsSticky(true);
-		} else {
-			setIsSticky(false);
-		}
-	};
+	const handleScroll = () => setIsSticky(window.scrollY > 100);
 
 	useEffect(() => {
 		window.addEventListener('scroll', handleScroll);
@@ -28,7 +22,9 @@ const SubNavbar = () => {
 	return (
 		<div
 			className={`w-full transition-all duration-300 ${
-				isSticky ? 'fixed top-0 left-0 z-[100] bg-slate-50/85' : 'relative'
+				isSticky
+					? 'fixed top-0 left-0 z-[100] bg-slate-50 shadow-md shadow-slate-200'
+					: 'relative'
 			}`}
 		>
 			<div
@@ -40,14 +36,14 @@ const SubNavbar = () => {
 				<div
 					className={`w-[260px] ${
 						isSticky
-							? 'h-[66px] bg-violet-400 text-white'
+							? 'h-[66px] bg-violet-400/75 text-white'
 							: 'bg-slate-50/85 text-slate-400 shadow-sm shadow-slate-300 h-[50px]'
 					} cursor-pointer font-semibold flex items-center justify-between px-5`}
 					onClick={() => setShow(!show)}
 				>
 					<div className='w-full flex items-center gap-3'>
 						<AlignJustify size={20} className='' />
-						<span className='w-full text-base'>Categories</span>
+						<span className='w-full text-base'>Categor&iacute;as</span>
 					</div>
 					{show ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
 				</div>
@@ -62,19 +58,19 @@ const SubNavbar = () => {
 				)}
 
 				{/* Navigation Links */}
-				<div className='flex items-center gap-4'>
+				<div className={`${!isSticky && 'w-[50%]'} flex items-center gap-4`}>
 					{subNavItems.map((item: SubNavItemsType, index: number) => (
 						<Link
 							key={index}
 							href={item.path}
-							className='px-5 font-semibold text-base text-slate-400'
+							className='px-5 font-semibold text-base text-slate-400 py-2 hover:bg-slate-200/65 hover:text-violet-400 rounded-md'
 						>
 							{item.text}
 						</Link>
 					))}
 				</div>
 
-				<div className='flex items-center gap-3 py-2'>
+				<div className='flex items-center gap-2 py-2'>
 					{isSticky && (
 						<>
 							<ProfileAvatar />

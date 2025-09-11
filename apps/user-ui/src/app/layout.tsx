@@ -15,9 +15,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`${poppins.className} antialiased`}>
+			<body className={`${poppins.className} antialiased bg-slate-100`}>
 				<Header />
-				{children}
+				<div className='w-full py-4'>{children}</div>
 			</body>
 		</html>
 	);

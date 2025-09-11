@@ -1,22 +1,22 @@
 export const subNavItems: SubNavItemsType[] = [
 	{
-		text: 'Home',
+		text: 'Inicio',
 		path: '/'
 	},
 	{
-		text: 'Products',
+		text: 'Productos',
 		path: '/products'
 	},
 	{
-		text: 'Shops',
+		text: 'Tiendas',
 		path: '/shops'
 	},
 	{
-		text: 'Offers',
+		text: 'Ofertas',
 		path: '/offers'
 	},
 	{
-		text: 'Seller',
+		text: 'Vender',
 		path: '/seller'
 	}
 ];
